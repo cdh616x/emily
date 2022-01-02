@@ -10,7 +10,7 @@ app.get("/", (req, res) => {//route handler
 
 
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000;//heroku designated port OR port 5000 (when on local machine)
 app.listen(PORT, () => {
   console.log("Server listening on port " + PORT + ".");
 });
