@@ -21,7 +21,8 @@ passport.deserializeUser((id, done) => {//deals with cookies
 passport.use(new GoogleStrategy({//passport knows that it is google without having to explicitly specify the variable
   clientID: keys.googleClientID,
   clientSecret: keys.googleClientSecret,
-  callbackURL: "/auth/google/callback"//location where the user is redirected after giving user permission
+  callbackURL: "/auth/google/callback",//location where the user is redirected after giving user permission
+  proxy: true
 },//creates a new instance of google passport strategy, passes in hidden values for OAuth
 (accessToken, refreshToken, profile, done) => {
   User.findOne({ googleID: profile.id })//looks to see if user ID already exists in database, query returns a promise
