@@ -30,7 +30,7 @@ async (accessToken, refreshToken, profile, done) => {
         //user already has record
         return done(null, existingUser);
       }//user does not have record / make a new record
-      const user = await new User({ googleID: profile.id, displayName: profile.displayName }).save();//creates new instance of a user, saves it to database
+      const user = await new User({ googleID: profile.id, displayName: profile.displayName, email: profile.emails }).save();//creates new instance of a user, saves it to database
       done(null, user);
   console.log(profile);
 }));
