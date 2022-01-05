@@ -16,6 +16,10 @@ module.exports = (app) => {
   app.get(
     "/auth/google/callback", passport.authenticate("google"));//user already has a code at this point
 
+  // app.get("/", (req, res) => {
+  //   res.sendFile("../client/build/static");
+  // });
+
   app.get("/api/current_user", (req, res) => {
     res.send(req.user);
   });

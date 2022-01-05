@@ -24,18 +24,13 @@ passport.use(new GoogleStrategy({//passport knows that it is google without havi
   callbackURL: "/auth/google/callback",//location where the user is redirected after giving user permission
   proxy: true
 },//creates a new instance of google passport strategy, passes in hidden values for OAuth
-(accessToken, refreshToken, profile, done) => {
-  User.findOne({ googleID: profile.id })//looks to see if user ID already exists in database, query returns a promise
-    .then((existingUser) => {//this is a PROMISE
+async (accessToken, refreshToken, profile, done) => {
+  const existingUser = await User.findOne({ googleID: profile.id });//looks to see if user ID already exists in database, query returns a promise
       if (existingUser) {
         //user already has record
-        done(null, existingUser);
-      } else {
-        //user does not have record / make a new record
-        new User({ googleID: profile.id, displayName: profile.displayName })//initial new user (data is transported to database with .save())
-          .save()//creates new instance of a user, saves it to database
-          .then(user => done(null, user));//fetches better version of user from the database
-      }
-    });
+        return done(null, existingUser);
+      }//user does not have record / make a new record
+      const user = await new User({ googleID: profile.id, displayName: profile.displayName }).save();//creates new instance of a user, saves it to database
+      done(null, user);
   console.log(profile);
 }));
